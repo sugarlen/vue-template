@@ -4,6 +4,7 @@ import TheWelcome from "../components/TheWelcome.vue";
 
 <template>
   <main>
+    <RouterLink to="demo">demo</RouterLink>
     <TheWelcome />
   </main>
 </template>
