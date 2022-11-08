@@ -6,7 +6,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "isolatedModules":false,
+    "isolatedModules": false,
+    "types": ["element-plus/global"]
   },
   // "preserveValueImports": true,
   "references": [

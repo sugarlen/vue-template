@@ -1,5 +1,5 @@
 <template>
-  <div ref="pageRef" class="list-page">
+  <div ref="containerRef" class="list-container">
     <ul ref="listRef" class="list">
       <li
         v-for="(item, index) in listData"
@@ -29,7 +29,7 @@ const props = defineProps<{
 
 // 列表HTMLElementDom
 const listRef = ref<HTMLElement>();
-const pageRef = ref<HTMLElement>();
+const containerRef = ref<HTMLElement>();
 
 const state = reactive({
   // 容器高度
@@ -70,7 +70,7 @@ onMounted(() => {
   if (listData.value.length > 0) {
     nextTick(() => {
       // 计算容器高度
-      state.containerH = pageRef.value?.clientHeight;
+      state.containerH = containerRef.value?.clientHeight;
       // eslint-disable-next-line no-debugger
       // debugger;
       // 计算每行高度
@@ -84,29 +84,46 @@ onMounted(() => {
       listRef.value?.style.setProperty("height", `${listH}px`);
     });
   }
-  pageRef.value?.removeEventListener("scroll", scrollHandler);
-  pageRef.value?.addEventListener("scroll", scrollHandler);
+  containerRef.value?.removeEventListener("scroll", scrollHandler);
+  containerRef.value?.addEventListener("scroll", scrollHandler);
 });
 onUnmounted(() => {
-  pageRef.value?.removeEventListener("scroll", scrollHandler);
+  containerRef.value?.removeEventListener("scroll", scrollHandler);
 });
 </script>
 
 <style lang="scss" scoped>
-.list-page {
+.list-container {
   border: 1px solid #000;
   height: 600px;
   overflow-y: auto;
   width: 400px;
-  // overflow-x: auto;
-  // width: 100%;
+  // 滚动条样式设置
+  &::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+  }
+  &::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: #e5e5e5;
+  }
+  &::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
   ul {
-    padding: 0 20px;
-
+    margin: 0;
+    padding: 0;
     & li {
       list-style-type: none;
       height: 50px;
       line-height: 50px;
+      border-bottom: 1px solid #313131;
+      padding: 0 20px;
     }
   }
 }
